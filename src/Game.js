@@ -1,12 +1,29 @@
 class Game {
   constructor(player, numberOfBots) {
-    this._player = new Player(player)
+    this._player = new Player(player, 0)
     this._numberOfBots = numberOfBots
   }
 
   start() {
     this._shuffleDeck()
     this._dealCards()
+  }
+
+  playRound(playerId, rank) {
+    const selectedPlayer = this.players()[playerId]
+    if (selectedPlayer.hasRank(rank)) {
+      // selected player gives cards to player whose turn it is
+    } else {
+      // turn draws from deck
+      // next player turn
+    }
+  }
+
+  turn() {
+    if (!this._turn) {
+      this._turn = this.players()[0]
+    }
+    return this._turn
   }
 
   players() {
@@ -46,7 +63,7 @@ class Game {
 
   _bots() {
     if (!this._botPlayers) {
-      this._botPlayers = [...Array(this._botCount()).keys()].map(i => new Player(`Bot ${i + 1}`))
+      this._botPlayers = [...Array(this._botCount()).keys()].map(i => new Player(`Bot ${i + 1}`, i + 1))
     }
     return this._botPlayers
   }
