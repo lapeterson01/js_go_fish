@@ -7,20 +7,11 @@ describe('Game', () => {
     bot1 = game.playerList().bots()[0]
   })
 
-  it('knows whose turn it is', () => {
-    expect(game.turn()).toEqual(player)
-  })
-
   describe('#constructor', () => {
     it('should start with a human player and bots', () => {
       game = new Game(player.name(), 2)
       bot2 = game.playerList().bots()[1]
       expect(game.players()).toEqual([player, bot1, bot2])
-    })
-
-    it('gives ids to each player and bot that equals its index in players array', () => {
-      expect(player.id()).toEqual(game.players().indexOf(player))
-      expect(bot1.id()).toEqual(game.players().indexOf(bot1))
     })
 
     it('should start with a deck', () => {
@@ -53,14 +44,19 @@ describe('Game', () => {
       card2 = new PlayingCard('2', 'C')
     })
 
-    it('gives card from seleced player to player whose turn it is if selected player has selected rank')
-
-    xit('plays a round', () => {
+    it('gives card from seleced player to player whose turn it is if selected player has selected rank', () => {
       player.retrieveCard(card1)
       bot1.retrieveCard(card2)
-      game.playRound(bot1.id(), card2.rank())
+      game.playRound(bot1.name(), card2.rank())
       expect(bot1.hand()).toEqual([])
-      expect(player.hand()).toEqual([card1, card2])
+      expect(player.hand()).toEqual([card2, card1])
+    })
+
+    it('draws card from deck if selected player does not have selected rank', () => {
+      bot1.retrieveCard(card2)
+      game.playRound(bot1.name(), card1.rank())
+      expect(bot1.hand()).toEqual([card2])
+      expect(player.countHand()).toBe(1)
     })
   })
 

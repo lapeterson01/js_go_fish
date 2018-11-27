@@ -9,22 +9,26 @@ class Game {
     this._dealCards()
   }
 
-  playRound(playerId, rank) {
-    const selectedPlayer = this.players()[playerId]
+  playRound(playerName, rank) {
+    const selectedPlayer = this.playerByName([playerName])
     if (selectedPlayer.hasRank(rank)) {
-      // selected player gives cards to player whose turn it is
+      this.tradeCards(selectedPlayer, rank)
     } else {
-      // turn draws from deck
+      this._drawFromDeck()
       // next player turn
     }
   }
 
-  turn() {
-    return this.playerList().turn()
+  tradeCards(player, rank) {
+    return this.playerList().tradeCards(player, rank)
   }
 
   players() {
     return this.playerList().players()
+  }
+
+  playerByName(playerName) {
+    return this.playerList().playerByName(playerName)
   }
 
   deck() {
@@ -44,11 +48,11 @@ class Game {
   }
 
   _dealCards() {
-    this.players().forEach((player) => {
-      for (let i = 0; i < 7; i++) {
-        player.retrieveCard(this.deck().deal())
-      }
-    })
+    for (let i = 0; i < 7; i++) {
+      this.players().forEach((player) => {
+        this._drawFromDeck(player)
+      })
+    }
   }
 
   _humanPlayerName() {
@@ -58,5 +62,10 @@ class Game {
   _botCount() {
     if (!this._numberOfBots) this._numberOfBots = 1
     return this._numberOfBots
+  }
+
+  _drawFromDeck(player) {
+    if (!player) player = this.playerList().turn()
+    player.retrieveCard(this.deck().deal())
   }
 }

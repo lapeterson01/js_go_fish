@@ -1,6 +1,6 @@
 class PlayerList {
   constructor(playerName, numberOfBots) {
-    this._player = new Player(playerName, 0)
+    this._player = new Player(playerName)
     this.createBots(numberOfBots)
   }
 
@@ -18,12 +18,18 @@ class PlayerList {
     return [this.player(), ...this.bots()]
   }
 
+  tradeCards(player, rank) {
+    player.giveUpCards(rank).forEach((card) => {
+      this.turn().retrieveCard(card)
+    })
+  }
+
   bots() {
     return this._bots
   }
 
   createBots(numberOfBots) {
-    this._bots = [...Array(numberOfBots).keys()].map(i => new Player(`Bot ${i + 1}`, i + 1))
+    this._bots = [...Array(numberOfBots).keys()].map(i => new Player(`Bot ${i + 1}`))
   }
 
   turn() {

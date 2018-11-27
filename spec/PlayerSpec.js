@@ -2,7 +2,7 @@ describe('Player', () => {
   let player, card
 
   beforeEach(() => {
-    player = new Player('Player 1', 0)
+    player = new Player('Player 1')
     card = new PlayingCard('A', 'S')
   })
 
@@ -10,11 +10,6 @@ describe('Player', () => {
     it('starts with a name', () => {
       const name = 'Player 1'
       expect(player.name()).toEqual(name)
-    })
-
-    it('starts with an id', () => {
-      const id = 0
-      expect(player.id()).toEqual(id)
     })
   })
 
@@ -35,7 +30,7 @@ describe('Player', () => {
   describe('#countHand', () => {
     it('returns the number of cards in player hand', () => {
       expect(player.countHand()).toEqual(0)
-      player.retrieveCard('fake card')
+      player.retrieveCard(card)
       expect(player.countHand()).toEqual(1)
     })
   })
@@ -48,6 +43,16 @@ describe('Player', () => {
 
     it('returns false if player does not have selected rank', () => {
       expect(player.hasRank(card.rank())).toBe(false)
+    })
+  })
+
+  describe('#giveUpCards', () => {
+    it('removes from hand and returns cards of selected rank', () => {
+      var card2 = new PlayingCard('A', 'C');
+      var card3 = new PlayingCard('2', 'C');
+      [card, card2, card3].forEach((card) => player.retrieveCard(card))
+      expect(player.giveUpCards(card.rank())).toEqual([card, card2])
+      expect(player.hand()).toEqual([card3])
     })
   })
 })
