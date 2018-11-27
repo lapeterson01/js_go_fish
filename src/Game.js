@@ -1,6 +1,6 @@
 class Game {
-  constructor(player, numberOfBots) {
-    this._player = new Player(player, 0)
+  constructor(playerName, numberOfBots) {
+    this._playerName = playerName
     this._numberOfBots = numberOfBots
   }
 
@@ -20,29 +20,23 @@ class Game {
   }
 
   turn() {
-    if (!this._turn) {
-      this._turn = this.players()[0]
-    }
-    return this._turn
+    return this.playerList().turn()
   }
 
   players() {
-    if (!this._players) {
-      this._players = [this._humanPlayer()].concat(this._bots())
-    }
-    return this._players
+    return this.playerList().players()
   }
 
   deck() {
-    if (!this._deck) {
-      this._deck = new CardDeck()
-    }
+    if (!this._deck) this._deck = new CardDeck()
     return this._deck
   }
 
-  _botCount() {
-    if (!this._numberOfBots) this._numberOfBots = 1
-    return this._numberOfBots
+  playerList() {
+    if (!this._playerList) {
+      this._playerList = new PlayerList(this._humanPlayerName(), this._botCount())
+    }
+    return this._playerList
   }
 
   _shuffleDeck() {
@@ -57,14 +51,12 @@ class Game {
     })
   }
 
-  _humanPlayer() {
-    return this._player
+  _humanPlayerName() {
+    return this._playerName
   }
 
-  _bots() {
-    if (!this._botPlayers) {
-      this._botPlayers = [...Array(this._botCount()).keys()].map(i => new Player(`Bot ${i + 1}`, i + 1))
-    }
-    return this._botPlayers
+  _botCount() {
+    if (!this._numberOfBots) this._numberOfBots = 1
+    return this._numberOfBots
   }
 }

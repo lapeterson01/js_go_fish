@@ -3,8 +3,8 @@ describe('Game', () => {
 
   beforeEach(() => {
     game = new Game('Player 1')
-    player = game._humanPlayer()
-    bot1 = game._bots()[0]
+    player = game.playerList().player()
+    bot1 = game.playerList().bots()[0]
   })
 
   it('knows whose turn it is', () => {
@@ -14,7 +14,7 @@ describe('Game', () => {
   describe('#constructor', () => {
     it('should start with a human player and bots', () => {
       game = new Game(player.name(), 2)
-      bot2 = game._bots()[1]
+      bot2 = game.playerList().bots()[1]
       expect(game.players()).toEqual([player, bot1, bot2])
     })
 
@@ -53,6 +53,8 @@ describe('Game', () => {
       card2 = new PlayingCard('2', 'C')
     })
 
+    it('gives card from seleced player to player whose turn it is if selected player has selected rank')
+
     xit('plays a round', () => {
       player.retrieveCard(card1)
       bot1.retrieveCard(card2)
@@ -62,7 +64,7 @@ describe('Game', () => {
     })
   })
 
-  describe('#allPlayers', () => {
+  describe('#players', () => {
     it('should return all players', () => {
       expect(game.players()).toEqual([player, bot1])
     })
