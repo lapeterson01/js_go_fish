@@ -15,7 +15,7 @@ class Game {
       this.tradeCards(selectedPlayer, rank)
     } else {
       this._drawFromDeck()
-      // next player turn
+      this._nextPlayerTurn()
     }
   }
 
@@ -67,5 +67,9 @@ class Game {
   _drawFromDeck(player) {
     if (!player) player = this.playerList().turn()
     player.retrieveCard(this.deck().deal())
+  }
+
+  _nextPlayerTurn() {
+    this.playerList().nextTurn()
   }
 }

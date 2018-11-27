@@ -36,4 +36,12 @@ class PlayerList {
     if (!this._turn) this._turn = this.players()[0]
     return this._turn
   }
+
+  setTurn(player) {
+    this._turn = player
+  }
+
+  nextTurn() {
+    this.setTurn(this.players()[this.players().indexOf(this.turn()) + 1])
+  }
 }

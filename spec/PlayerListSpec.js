@@ -33,6 +33,13 @@ describe('PlayerList', () => {
     })
   })
 
+  describe('#nextTurn', () => {
+    it('changes turn to the next player', () => {
+      playerList.nextTurn()
+      expect(playerList.turn()).toEqual(bot1)
+    })
+  })
+
   describe('#playerByName', () => {
     it('returns the player with the given name', () => {
       expect(playerList.playerByName(player.name())).toEqual(player)

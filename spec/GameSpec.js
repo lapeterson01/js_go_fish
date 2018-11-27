@@ -44,7 +44,7 @@ describe('Game', () => {
       card2 = new PlayingCard('2', 'C')
     })
 
-    it('gives card from seleced player to player whose turn it is if selected player has selected rank', () => {
+    it('gives card from selected player to player whose turn it is if selected player has selected rank', () => {
       player.retrieveCard(card1)
       bot1.retrieveCard(card2)
       game.playRound(bot1.name(), card2.rank())
@@ -57,6 +57,12 @@ describe('Game', () => {
       game.playRound(bot1.name(), card1.rank())
       expect(bot1.hand()).toEqual([card2])
       expect(player.countHand()).toBe(1)
+    })
+
+    it('changes turn to the next player when selected player does not have selected card', () => {
+      bot1.retrieveCard(card2)
+      game.playRound(bot1.name(), card1.rank())
+      expect(game.playerList().turn()).toEqual(bot1)
     })
   })
 
