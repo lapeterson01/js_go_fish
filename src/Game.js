@@ -12,15 +12,23 @@ class Game {
   playRound(playerName, rank) {
     const selectedPlayer = this.playerByName([playerName])
     if (selectedPlayer.hasRank(rank)) {
-      this.tradeCards(selectedPlayer, rank)
+      this._giveCardsToCurrentPlayer(selectedPlayer, rank)
     } else {
       this._drawFromDeck()
       this._nextPlayerTurn()
     }
   }
 
-  tradeCards(player, rank) {
-    return this.playerList().tradeCards(player, rank)
+  winner() {
+    if (this._areAllHandsEmpty() || this._isDeckEmpty()) {
+      return this._calculateWinner()
+    } else {
+      return false
+    }
+  }
+
+  _giveCardsToCurrentPlayer(player, rank) {
+    return this.playerList().giveCardsToCurrentPlayer(player, rank)
   }
 
   players() {
@@ -65,11 +73,23 @@ class Game {
   }
 
   _drawFromDeck(player) {
-    if (!player) player = this.playerList().turn()
+    if (!player) player = this.playerList().currentPlayer()
     player.retrieveCard(this.deck().deal())
   }
 
   _nextPlayerTurn() {
     this.playerList().nextTurn()
+  }
+
+  _areAllHandsEmpty() {
+    return this.playerList().areAllHandsEmpty()
+  }
+
+  _isDeckEmpty() {
+    return this.deck().isEmpty()
+  }
+
+  _calculateWinner() {
+    return this.playerList().calculateWinner()
   }
 }

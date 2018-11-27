@@ -27,22 +27,34 @@ describe('PlayerList', () => {
     })
   })
 
-  describe('#turn', () => {
+  describe('#currentPlayer', () => {
     it('knows whose turn it is', () => {
-      expect(playerList.turn()).toEqual(player)
+      expect(playerList.currentPlayer()).toEqual(player)
     })
   })
 
   describe('#nextTurn', () => {
     it('changes turn to the next player', () => {
       playerList.nextTurn()
-      expect(playerList.turn()).toEqual(bot1)
+      expect(playerList.currentPlayer()).toEqual(bot1)
     })
   })
 
   describe('#playerByName', () => {
     it('returns the player with the given name', () => {
       expect(playerList.playerByName(player.name())).toEqual(player)
+    })
+  })
+
+  describe('#areAllHandsEmpty', () => {
+    it('returns false if no players hands are empty', () => {
+      card = new PlayingCard('A', 'S')
+      playerList.players().forEach((player) => player.retrieveCard(card))
+      expect(playerList.areAllHandsEmpty()).toBe(false)
+    })
+
+    it('returns true if a player is out of cards', () => {
+      expect(playerList.areAllHandsEmpty()).toBe(true)
     })
   })
 })

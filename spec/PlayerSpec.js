@@ -35,6 +35,17 @@ describe('Player', () => {
     })
   })
 
+  describe('#isHandEmpty', () => {
+    it('returns true if player hand is empty', () => {
+      expect(player.isHandEmpty()).toBe(true)
+    })
+
+    it('returns false if player hand is not empty', () => {
+      player.retrieveCard(card)
+      expect(player.isHandEmpty()).toBe(false)
+    })
+  })
+
   describe('#hasRank', () => {
     it('returns true if player has selected rank', () => {
       player.retrieveCard(card)
@@ -53,6 +64,20 @@ describe('Player', () => {
       [card, card2, card3].forEach((card) => player.retrieveCard(card))
       expect(player.giveUpCards(card.rank())).toEqual([card, card2])
       expect(player.hand()).toEqual([card3])
+    })
+  })
+
+  describe('#calculateBooks', () => {
+    it('does nothing if player does not have four of one rank', () => {
+      player.calculateBooks()
+      expect(player.books()).toBe(0)
+    })
+
+    it('removes that rank from player hand if it have four cards', () => {
+      const fourAces = [card, ...['C', 'D', 'H'].map(suit => new PlayingCard('A', suit))]
+      fourAces.forEach((card) => player.retrieveCard(card))
+      player.calculateBooks()
+      expect(player.books()).toBe(1)
     })
   })
 })

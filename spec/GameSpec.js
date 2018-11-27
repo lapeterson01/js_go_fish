@@ -1,10 +1,12 @@
 describe('Game', () => {
-  let player, game, bot1
+  let player, game, bot1, card1, card2
 
   beforeEach(() => {
     game = new Game('Player 1')
     player = game.playerList().player()
     bot1 = game.playerList().bots()[0]
+    card1 = new PlayingCard('A', 'S')
+    card2 = new PlayingCard('2', 'C')
   })
 
   describe('#constructor', () => {
@@ -37,13 +39,6 @@ describe('Game', () => {
   })
 
   describe('#playRound', () => {
-    let card1, card2
-
-    beforeEach(() => {
-      card1 = new PlayingCard('A', 'S')
-      card2 = new PlayingCard('2', 'C')
-    })
-
     it('gives card from selected player to player whose turn it is if selected player has selected rank', () => {
       player.retrieveCard(card1)
       bot1.retrieveCard(card2)
@@ -62,7 +57,27 @@ describe('Game', () => {
     it('changes turn to the next player when selected player does not have selected card', () => {
       bot1.retrieveCard(card2)
       game.playRound(bot1.name(), card1.rank())
-      expect(game.playerList().turn()).toEqual(bot1)
+      expect(game.playerList().currentPlayer()).toEqual(bot1)
+    })
+  })
+
+  describe('#winner', () => {
+    let fourAces
+
+    beforeEach(() => {
+      fourAces = [card1, ...['C', 'D', 'H'].map((suit) => new PlayingCard('A', suit))]
+    })
+
+    it('returns false if there is no winner', () => {
+      game.players().forEach((player) => {
+        player.retrieveCard(card1)
+      })
+      expect(game.winner()).toEqual(false)
+    })
+
+    it('returns a winner if there is one', () => {
+      fourAces.forEach(card => player.retrieveCard(card))
+      expect(game.winner()).toEqual(player)
     })
   })
 

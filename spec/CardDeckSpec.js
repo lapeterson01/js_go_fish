@@ -30,4 +30,21 @@ describe('CardDeck', () => {
       expect(deck.count()).toEqual(51)
     })
   })
+
+  describe('#count', () => {
+    it('returns the number of cards in the deck', () => {
+      expect(deck.count()).toBe(52)
+    })
+  })
+
+  describe('#isEmpty', () => {
+    it('returns false if the deck has cards', () => {
+      expect(deck.isEmpty()).toBe(false)
+    })
+
+    it('returns true if the deck has no cards', () => {
+      [...Array(52).keys()].forEach(() => deck.deal())
+      expect(deck.isEmpty()).toBe(true)
+    })
+  })
 })

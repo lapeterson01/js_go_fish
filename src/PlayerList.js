@@ -18,9 +18,13 @@ class PlayerList {
     return [this.player(), ...this.bots()]
   }
 
-  tradeCards(player, rank) {
+  areAllHandsEmpty() {
+    return this.players().some((player) => player.isHandEmpty())
+  }
+
+  giveCardsToCurrentPlayer(player, rank) {
     player.giveUpCards(rank).forEach((card) => {
-      this.turn().retrieveCard(card)
+      this.currentPlayer().retrieveCard(card)
     })
   }
 
@@ -32,16 +36,29 @@ class PlayerList {
     this._bots = [...Array(numberOfBots).keys()].map(i => new Player(`Bot ${i + 1}`))
   }
 
-  turn() {
-    if (!this._turn) this._turn = this.players()[0]
-    return this._turn
+  currentPlayer() {
+    if (!this._currentPlayer) this._currentPlayer = this.players()[0]
+    return this._currentPlayer
   }
 
   setTurn(player) {
-    this._turn = player
+    this._currentPlayer = player
   }
 
   nextTurn() {
-    this.setTurn(this.players()[this.players().indexOf(this.turn()) + 1])
+    this.setTurn(this.players()[this.players().indexOf(this.currentPlayer()) + 1])
+  }
+
+  calculateWinner() {
+    this._calculateBooks()
+    return this.players().reduce((winningPlayer, currentPlayer) => {
+      return currentPlayer.books() > winningPlayer.books() ? currentPlayer : winningPlayer
+    })
+  }
+
+  _calculateBooks() {
+    this.players().forEach((player) => {
+      player.calculateBooks()
+    })
   }
 }

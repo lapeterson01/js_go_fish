@@ -14,6 +14,10 @@ class CardDeck {
     return this.cards().length
   }
 
+  isEmpty() {
+    return this.count() == 0
+  }
+
   shuffle() {
     const cards = this._cards;
 

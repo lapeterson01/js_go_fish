@@ -12,6 +12,25 @@ class Player {
     return Object.values(this.handObject()).flat()
   }
 
+  books() {
+    if (!this._books) this._books = 0
+    return this._books
+  }
+
+  addBook() {
+    if (!this._books) this._books = 0
+    this._books += 1
+  }
+
+  calculateBooks() {
+    for (let rank in this.handObject()) {
+      if (this.handObject()[rank].length == 4) {
+        delete this.handObject()[rank]
+        this.addBook()
+      }
+    }
+  }
+
   retrieveCard(card) {
     if (this.hasRank(card.rank())) {
       this._hand[card.rank()].push(card)
@@ -22,6 +41,10 @@ class Player {
 
   countHand() {
     return this.hand().length
+  }
+
+  isHandEmpty() {
+    return this.countHand() == 0
   }
 
   hasRank(rank) {
