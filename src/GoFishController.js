@@ -4,12 +4,13 @@ class GoFishController {
   }
 
   login() {
-    const view = new LoginView(this.startGame.bind(this))
+    const view = new LoginView(this.game.bind(this))
     view.draw(this.container())
   }
 
-  startGame(name) {
-    const game = new Game(name)
+  game(name, botCount) {
+    const game = new Game(name, botCount)
+    game.start()
     const view = new GameView(game)
     view.draw(this.container())
   }

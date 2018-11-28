@@ -27,8 +27,8 @@ class Game {
     }
   }
 
-  _giveCardsToCurrentPlayer(player, rank) {
-    return this.playerList().giveCardsToCurrentPlayer(player, rank)
+  humanPlayer() {
+    return this.playerList().player()
   }
 
   players() {
@@ -49,6 +49,10 @@ class Game {
       this._playerList = new PlayerList(this._humanPlayerName(), this._botCount())
     }
     return this._playerList
+  }
+
+  _giveCardsToCurrentPlayer(player, rank) {
+    return this.playerList().giveCardsToCurrentPlayer(player, rank)
   }
 
   _shuffleDeck() {

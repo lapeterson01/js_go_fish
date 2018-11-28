@@ -11,4 +11,8 @@ class PlayingCard {
   suit() {
     return this._suit
   }
+
+  toString() {
+    return `${this.rank()} of ${this.suit()}`
+  }
 }
