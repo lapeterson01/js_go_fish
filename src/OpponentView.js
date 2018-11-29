@@ -10,7 +10,6 @@ class OpponentView {
 
   draw(container) {
     container.innerHTML = ''
-    debugger
     this.opponents().forEach((opponent) => {
       const opponentMarkup = `
         <div>${opponent.name()}</div>
@@ -23,6 +22,7 @@ class OpponentView {
       element.childNodes.forEach((node) => {
         node.onclick = this.setPlayer.bind(this)
       })
+      element.setAttribute('data-player', opponent.name())
       container.appendChild(element)
     })
   }

@@ -31,6 +31,10 @@ class Game {
     return this.playerList().player()
   }
 
+  currentPlayer() {
+    return this.playerList().currentPlayer()
+  }
+
   players() {
     return this.playerList().players()
   }
