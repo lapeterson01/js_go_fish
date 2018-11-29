@@ -1,18 +1,11 @@
 class PlayerView {
-  constructor(player) {
+  constructor(player, setRank) {
     this._player = player
+    this.setRank = setRank
   }
 
   player() {
     return this._player
-  }
-
-  setRank(event) {
-    event.target.parentNode.childNodes.forEach((cardNode) => {
-      cardNode.setAttribute('style', 'color: none')
-    })
-    event.target.setAttribute('style', 'color: red')
-    this._selectedRank = event.target.dataset.rank
   }
 
   draw(container) {

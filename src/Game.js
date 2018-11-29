@@ -1,7 +1,7 @@
 class Game {
   constructor(playerName, numberOfBots) {
     this._playerName = playerName
-    this._numberOfBots = numberOfBots
+    this._numberOfBots = Number(numberOfBots)
   }
 
   start() {

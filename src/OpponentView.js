@@ -1,6 +1,7 @@
 class OpponentView {
-  constructor (opponents) {
+  constructor (opponents, setPlayer) {
     this._opponents = opponents
+    this.setPlayer = setPlayer
   }
 
   opponents() {
@@ -9,6 +10,7 @@ class OpponentView {
 
   draw(container) {
     container.innerHTML = ''
+    debugger
     this.opponents().forEach((opponent) => {
       const opponentMarkup = `
         <div>${opponent.name()}</div>
@@ -18,6 +20,9 @@ class OpponentView {
 
       const element = document.createElement('li')
       element.innerHTML = opponentMarkup
+      element.childNodes.forEach((node) => {
+        node.onclick = this.setPlayer.bind(this)
+      })
       container.appendChild(element)
     })
   }

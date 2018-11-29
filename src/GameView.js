@@ -3,6 +3,22 @@ class GameView {
     this._game = game
   }
 
+  setPlayer(event) {
+    event.target.parentNode.parentNode.childNodes.forEach((opponentNode) => {
+      opponentNode.setAttribute('style', 'color: none')
+    })
+    event.target.parentNode.  setAttribute('style', 'color: blue')
+    this._selectedPlayer = event.target.dataset.player
+  }
+
+  setRank(event) {
+    event.target.parentNode.childNodes.forEach((cardNode) => {
+      cardNode.setAttribute('style', 'color: none')
+    })
+    event.target.setAttribute('style', 'color: red')
+    this._selectedRank = event.target.dataset.rank
+  }
+
   game() {
     return this._game
   }
@@ -35,12 +51,12 @@ class GameView {
   }
 
   _drawOpponent() {
-    const view = new OpponentView(this.allOpponents())
+    const view = new OpponentView(this.allOpponents(), this.setPlayer.bind(this))
     view.draw(this.opponentElement())
   }
 
   _drawPlayer() {
-    const view = new PlayerView(this.game().humanPlayer())
+    const view = new PlayerView(this.game().humanPlayer(), this.setRank.bind(this))
     view.draw(this.playerElement())
   }
 }
