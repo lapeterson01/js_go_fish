@@ -1,4 +1,4 @@
-describe('Player', () => {
+  describe('Player', () => {
   let player, card
 
   beforeEach(() => {
@@ -11,19 +11,17 @@ describe('Player', () => {
       const name = 'Player 1'
       expect(player.name()).toEqual(name)
     })
+
+    it('starts with a hand', () => {
+      const hand = {}
+      expect(player.handObject()).toEqual(hand)
+    })
   })
 
   describe('#hand', () => {
     it('starts with an empty hand', () => {
       const hand = []
       expect(player.hand()).toEqual(hand)
-    })
-  })
-
-  describe('#retrieveCard', () => {
-    it('adds a card to player hand', () => {
-      player.retrieveCard(card)
-      expect(player.hand()).toEqual([card])
     })
   })
 
@@ -46,24 +44,11 @@ describe('Player', () => {
     })
   })
 
-  describe('#hasRank', () => {
-    it('returns true if player has selected rank', () => {
-      player.retrieveCard(card)
-      expect(player.hasRank(card.rank())).toBe(true)
-    })
-
-    it('returns false if player does not have selected rank', () => {
-      expect(player.hasRank(card.rank())).toBe(false)
-    })
-  })
-
-  describe('#giveUpCards', () => {
-    it('removes from hand and returns cards of selected rank', () => {
-      var card2 = new PlayingCard('A', 'C');
-      var card3 = new PlayingCard('2', 'C');
-      [card, card2, card3].forEach((card) => player.retrieveCard(card))
-      expect(player.giveUpCards(card.rank())).toEqual([card, card2])
-      expect(player.hand()).toEqual([card3])
+  describe('#addBook', () => {
+    it('adds a book', () => {
+      expect(player.books()).toEqual(0)
+      player.addBook()
+      expect(player.books()).toEqual(1)
     })
   })
 
@@ -78,6 +63,34 @@ describe('Player', () => {
       fourAces.forEach((card) => player.retrieveCard(card))
       player.calculateBooks()
       expect(player.books()).toBe(1)
+    })
+  })
+
+  describe('#retrieveCard', () => {
+    it('adds a card to player hand', () => {
+      player.retrieveCard(card)
+      expect(player.hand()).toEqual([card])
+    })
+  })
+
+  describe('#giveUpCards', () => {
+    it('removes from hand and returns cards of selected rank', () => {
+      var card2 = new PlayingCard('A', 'C');
+      var card3 = new PlayingCard('2', 'C');
+      [card, card2, card3].forEach((card) => player.retrieveCard(card))
+      expect(player.giveUpCards(card.rank())).toEqual([card, card2])
+      expect(player.hand()).toEqual([card3])
+    })
+  })
+
+  describe('#hasRank', () => {
+    it('returns true if player has selected rank', () => {
+      player.retrieveCard(card)
+      expect(player.hasRank(card.rank())).toBe(true)
+    })
+
+    it('returns false if player does not have selected rank', () => {
+      expect(player.hasRank(card.rank())).toBe(false)
     })
   })
 })

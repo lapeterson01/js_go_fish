@@ -8,18 +8,30 @@ class Player {
     return this._name
   }
 
+  handObject() {
+    return this._hand
+  }
+
   hand() {
     return Object.values(this.handObject()).flat()
   }
 
-  books() {
-    if (!this._books) this._books = 0
-    return this._books
+  countHand() {
+    return this.hand().length
+  }
+
+  isHandEmpty() {
+    return this.countHand() == 0
   }
 
   addBook() {
     if (!this._books) this._books = 0
     this._books += 1
+  }
+
+  books() {
+    if (!this._books) this._books = 0
+    return this._books
   }
 
   calculateBooks() {
@@ -39,18 +51,6 @@ class Player {
     }
   }
 
-  countHand() {
-    return this.hand().length
-  }
-
-  isHandEmpty() {
-    return this.countHand() == 0
-  }
-
-  hasRank(rank) {
-    return this.handObject().hasOwnProperty(rank)
-  }
-
   giveUpCards(rank) {
     if (this.hasRank(rank)) {
       const cardsToReturn = this.handObject()[rank]
@@ -59,7 +59,7 @@ class Player {
     }
   }
 
-  handObject() {
-    return this._hand
+  hasRank(rank) {
+    return this.handObject().hasOwnProperty(rank)
   }
 }

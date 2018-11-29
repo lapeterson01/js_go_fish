@@ -33,17 +33,17 @@ class GoFishController {
 
   setPlayer(event) {
     event.target.parentNode.parentNode.childNodes.forEach((opponentNode) => {
-      opponentNode.setAttribute('style', 'color: none')
+      opponentNode.style.color = null
     })
-    event.target.parentNode.setAttribute('style', 'color: blue')
+    event.target.parentNode.style.color = 'blue'
     this._selectedPlayer = event.target.parentNode.dataset.player
   }
 
   setRank(event) {
     event.target.parentNode.childNodes.forEach((cardNode) => {
-      cardNode.setAttribute('style', 'color: none')
+      cardNode.style.color = null
     })
-    event.target.setAttribute('style', 'color: red')
+    event.target.style.color = 'red'
     this._selectedRank = event.target.dataset.rank
   }
 

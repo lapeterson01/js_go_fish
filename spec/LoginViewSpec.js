@@ -12,7 +12,7 @@ describe('LoginView', () => {
       view.submitButton().click()
 
       expect(calledWith).toEqual(['Player 1', '2'])
-      container.remove()  
+      container.remove()
     })
   })
 })
