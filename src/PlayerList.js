@@ -14,6 +14,12 @@ class PlayerList {
     })
   }
 
+  allPlayersExcept(playerName) {
+    return this.players().filter((player) => {
+      return player.name() != playerName
+    })
+  }
+
   players() {
     return [this.player(), ...this.bots()]
   }

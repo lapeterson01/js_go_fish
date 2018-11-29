@@ -2,9 +2,9 @@ describe('PlayerList', () => {
   let player, playerList, bot1
 
   beforeEach(() => {
-    player = new Player('Player 1', 0)
-    bot1 = new Player('Bot 1', 1)
-    playerList = new PlayerList(player.name())
+    player = new Player('Player 1')
+    bot1 = new Player('Bot 1')
+    playerList = new PlayerList(player.name(), 1)
   })
 
   describe('#constructor', () => {
@@ -21,7 +21,7 @@ describe('PlayerList', () => {
 
   describe('#createBots', () => {
     it('creates a number of specified bots', () => {
-      const bot2 = new Player('Bot 2', 2)
+      const bot2 = new Player('Bot 2')
       playerList.createBots(2)
       expect(playerList.players()).toEqual([player, bot1, bot2])
     })
@@ -55,6 +55,12 @@ describe('PlayerList', () => {
 
     it('returns true if a player is out of cards', () => {
       expect(playerList.areAllHandsEmpty()).toBe(true)
+    })
+  })
+
+  describe('#allPlayersExcept', () => {
+    it('returns all players expect for player specified by name', () => {
+      expect(playerList.allPlayersExcept(player.name())).toEqual([bot1])
     })
   })
 })
