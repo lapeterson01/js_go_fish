@@ -38,3 +38,18 @@ class CardDeck {
     })
   }
 }
+
+class TestDeck extends CardDeck {
+  static ranks() { return ['A', 'K', 'Q', 'J'] }
+  static suits() { return ['S', 'C', 'D', 'H'] }
+
+  shuffle() {
+    // do nothing
+  }
+
+  _createDeck() {
+    return TestDeck.ranks().flatMap((rank) => {
+      return TestDeck.suits().map(suit => new PlayingCard(rank, suit))
+    })
+  }
+}

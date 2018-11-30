@@ -17,6 +17,7 @@ class Game {
       this._drawFromDeck()
       this._nextPlayerTurn()
     }
+    this._calculateBooks()
   }
 
   winner() {
@@ -41,6 +42,10 @@ class Game {
 
   playerByName(playerName) {
     return this.playerList().playerByName(playerName)
+  }
+
+  allPlayersExcept(playerName) {
+    return this.playerList().allPlayersExcept(playerName)
   }
 
   deck() {
@@ -95,6 +100,10 @@ class Game {
 
   _isDeckEmpty() {
     return this.deck().isEmpty()
+  }
+
+  _calculateBooks() {
+    this.playerList().calculateBooks()
   }
 
   _calculateWinner() {

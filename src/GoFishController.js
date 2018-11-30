@@ -19,7 +19,12 @@ class GoFishController {
   }
 
   gameView() {
-    const view = new GameView(this.game(), this.setRank.bind(this), this.setPlayer.bind(this), this.playRound.bind(this))
+    const view = new GameView(this.game(), this.setRank.bind(this), this.setPlayer.bind(this), this.playRound.bind(this), this.botPlayRound.bind(this))
+    view.draw(this.container())
+  }
+
+  winnerView() {
+    const view = new WinnerView(this.game())
     view.draw(this.container())
   }
 
@@ -49,7 +54,19 @@ class GoFishController {
 
   playRound() {
     this.game().playRound(this.selectedPlayer(), this.selectedRank())
+    this._checkWinner()
     this.gameView()
+  }
+
+  botPlayRound() {
+    const bot = new Bot(this.game())
+    this.game().playRound(bot.randomPlayer(), bot.randomRank())
+    this._checkWinner()
+    this.gameView()
+  }
+
+  _checkWinner() {
+    if (this.game().winner()) this.winnerView()
   }
 }
 

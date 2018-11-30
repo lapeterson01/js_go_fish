@@ -56,13 +56,12 @@ class PlayerList {
   }
 
   calculateWinner() {
-    this._calculateBooks()
     return this.players().reduce((winningPlayer, currentPlayer) => {
       return currentPlayer.books() > winningPlayer.books() ? currentPlayer : winningPlayer
     })
   }
 
-  _calculateBooks() {
+  calculateBooks() {
     this.players().forEach((player) => {
       player.calculateBooks()
     })

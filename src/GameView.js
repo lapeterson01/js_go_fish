@@ -1,9 +1,10 @@
 class GameView {
-  constructor(game, setRank, setPlayer, playRound) {
+  constructor(game, setRank, setPlayer, playRound, botPlayRound) {
     this._game = game
     this.setRank = setRank
     this.setPlayer = setPlayer
     this.playRound = playRound
+    this.botPlayRound = botPlayRound
   }
 
   game() {
@@ -43,14 +44,19 @@ class GameView {
     `
 
     container.innerHTML = gameMarkup
+    this._drawPlayRoundButton()
+    this._drawOpponent()
+    this._drawPlayer()
+  }
+
+  _drawPlayRoundButton() {
     if (this.game().humanPlayer() == this.game().currentPlayer()) {
       this.playRoundElement().innerHTML = '<input type="button" id="playRoundButton" value="Play!" />'
       this.playRoundButton().onclick = this.playRound.bind(this)
     } else {
-      this.playRoundElement().innerHTML = `Waiting for ${this.game().currentPlayer().name()}`
+      this.playRoundElement().innerHTML = `<input type="button" id="playRoundButton" value="${this.game().currentPlayer().name()} Play!" />`
+      this.playRoundButton().onclick = this.botPlayRound.bind(this)
     }
-    this._drawOpponent()
-    this._drawPlayer()
   }
 
   _drawOpponent() {

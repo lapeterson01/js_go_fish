@@ -8,6 +8,13 @@ class OpponentView {
     return this._opponents
   }
 
+  bots() {
+    if (!this._bots) this._bots = this.opponents().map((opponent) => {
+      return new Bot(opponent)
+    })
+    return this._bots
+  }
+
   draw(container) {
     container.innerHTML = ''
     this.opponents().forEach((opponent) => {
@@ -22,7 +29,8 @@ class OpponentView {
       element.childNodes.forEach((node) => {
         node.onclick = this.setPlayer.bind(this)
       })
-      element.setAttribute('data-player', opponent.name())
+      // element.setAttribute('data-player', opponent.name())
+      element.dataset.player = opponent.name()
       container.appendChild(element)
     })
   }
