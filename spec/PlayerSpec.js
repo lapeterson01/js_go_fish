@@ -6,6 +6,25 @@
     card = new PlayingCard('A', 'S')
   })
 
+  describe('#asHuman', () => {
+    it('creates a new player as a human', () => {
+      const humanPlayer = Player.asHuman('Human Player')
+      expect(humanPlayer.isHumanPlayer()).toBe(true)
+    })
+  })
+
+  describe('#isHumanPlayer', () => {
+    it('returns true if player is a human player', () => {
+      const humanPlayer = Player.asHuman('Human Player')
+      expect(humanPlayer.isHumanPlayer()).toBe(true)
+    })
+
+    it('returns false if player is not a human player', () => {
+      const bot = new Player('Bot')
+      expect(bot.isHumanPlayer()).toBe(false)
+    })
+  })
+
   describe('#constructor', () => {
     it('starts with a name', () => {
       const name = 'Player 1'

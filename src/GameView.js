@@ -15,20 +15,12 @@ class GameView {
     return this.game().playerList().allPlayersExcept(this.game().humanPlayer().name())
   }
 
+  roundInfo() {
+    return this.game().roundInfo()
+  }
+
   opponentElement() {
     return document.getElementById('opponentList')
-  }
-
-  playerElement() {
-    return document.getElementById('player')
-  }
-
-  playRoundElement() {
-    return document.getElementById('playRound')
-  }
-
-  playRoundButton() {
-    return document.getElementById('playRoundButton')
   }
 
   draw(container) {
@@ -39,6 +31,7 @@ class GameView {
         </div>
         <div id="table">Deck: ${this.game().deck().count()}</div>
         <div id="player"></div>
+        <div id="roundMessage"></div>
         <div id="playRound"></div>
       </div>
     `
@@ -47,25 +40,50 @@ class GameView {
     this._drawPlayRoundButton()
     this._drawOpponent()
     this._drawPlayer()
+    this._drawRoundMessage()
   }
 
   _drawPlayRoundButton() {
     if (this.game().humanPlayer() == this.game().currentPlayer()) {
-      this.playRoundElement().innerHTML = '<input type="button" id="playRoundButton" value="Play!" />'
-      this.playRoundButton().onclick = this.playRound.bind(this)
+      playRound.innerHTML = '<input type="button" id="playRoundButton" value="Play!" />'
+      playRoundButton.onclick = this.playRound.bind(this)
     } else {
-      this.playRoundElement().innerHTML = `<input type="button" id="playRoundButton" value="${this.game().currentPlayer().name()} Play!" />`
-      this.playRoundButton().onclick = this.botPlayRound.bind(this)
+      playRound.innerHTML = `<input type="button" id="playRoundButton" value="${this.game().currentPlayer().name()} Play!" />`
+      playRoundButton.onclick = this.botPlayRound.bind(this)
     }
   }
 
   _drawOpponent() {
     const view = new OpponentView(this.allOpponents(), this.setPlayer.bind(this))
+    view.draw(opponentList)
     view.draw(this.opponentElement())
   }
 
   _drawPlayer() {
     const view = new PlayerView(this.game().humanPlayer(), this.setRank.bind(this))
-    view.draw(this.playerElement())
+    view.draw(player)
+  }
+
+  _drawRoundMessage() {
+    let message
+    if (this.roundInfo()) {
+      if (this.roundInfo().requestedPlayer() == 'deck') {
+        if (this.roundInfo().currentPlayer() == 'You') {
+          message = `You drew ${this.roundInfo().cardsReceived} from the deck`
+        } else {
+          message = `${this.roundInfo().currentPlayer()} drew from the deck`
+        }
+      } else {
+        if (this.roundInfo().currentPlayer() == 'You' || this.roundInfo().requestedPlayer() == 'you') {
+          message = `${this.roundInfo().currentPlayer()} took ${this.roundInfo().cardsReceived} from ${this.roundInfo().requestedPlayer()}`
+        } else {
+          message = `${this.roundInfo().currentPlayer()} took cards from ${this.roundInfo().requestedPlayer()}`
+        }
+      }
+    } else {
+      message = 'It is your turn'
+    }
+
+    roundMessage.innerHTML = message
   }
 }

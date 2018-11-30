@@ -29,8 +29,9 @@ class PlayerList {
   }
 
   giveCardsToCurrentPlayer(player, rank) {
-    player.giveUpCards(rank).forEach((card) => {
+    return player.giveUpCards(rank).map((card) => {
       this.currentPlayer().retrieveCard(card)
+      return card
     })
   }
 

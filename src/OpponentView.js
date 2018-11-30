@@ -25,6 +25,7 @@ class OpponentView {
       `
 
       const element = document.createElement('li')
+      element.className = 'game-list-item'
       element.innerHTML = opponentMarkup
       element.childNodes.forEach((node) => {
         node.onclick = this.setPlayer.bind(this)

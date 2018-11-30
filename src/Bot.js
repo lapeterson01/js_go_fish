@@ -7,16 +7,16 @@ class Bot {
     return this._game
   }
 
-  player() {
+  currentPlayer() {
     return this.game().currentPlayer()
   }
 
   allPlayersExceptCurrentPlayer() {
-    return this.game().allPlayersExcept(this.player().name())
+    return this.game().allPlayersExcept(this.currentPlayer().name())
   }
 
   randomRank() {
-    return this.player().hand()[this._randomIndexOf(this.player().hand())].rank()
+    return this.currentPlayer().hand()[this._randomIndexOf(this.currentPlayer().hand())].rank()
   }
 
   randomPlayer() {

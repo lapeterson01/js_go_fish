@@ -1,7 +1,8 @@
 class Game {
-  constructor(playerName, numberOfBots) {
+  constructor(playerName, numberOfBots, deck = new CardDeck()) {
     this._playerName = playerName
     this._numberOfBots = Number(numberOfBots)
+    this._deck = deck
   }
 
   start() {
@@ -12,9 +13,11 @@ class Game {
   playRound(playerName, rank) {
     const selectedPlayer = this.playerByName([playerName])
     if (selectedPlayer.hasRank(rank)) {
-      this._giveCardsToCurrentPlayer(selectedPlayer, rank)
+      const retrievedCards = this._giveCardsToCurrentPlayer(selectedPlayer, rank)
+      this._gatherRoundInfo(selectedPlayer, retrievedCards)
     } else {
-      this._drawFromDeck()
+      const retrievedCards = [this._drawFromDeck()]
+      this._gatherRoundInfo({ name: function() { return 'deck' } }, retrievedCards)
       this._nextPlayerTurn()
     }
     this._calculateBooks()
@@ -49,7 +52,6 @@ class Game {
   }
 
   deck() {
-    if (!this._deck) this._deck = new CardDeck()
     return this._deck
   }
 
@@ -87,7 +89,7 @@ class Game {
 
   _drawFromDeck(player) {
     if (!player) player = this.playerList().currentPlayer()
-    player.retrieveCard(this.deck().deal())
+    return player.retrieveCard(this.deck().deal())
   }
 
   _nextPlayerTurn() {
@@ -108,5 +110,24 @@ class Game {
 
   _calculateWinner() {
     return this.playerList().calculateWinner()
+  }
+
+  _gatherRoundInfo(cardSource, cards) {
+    const currentPlayer = this.currentPlayer()
+    const humanPlayer = this.humanPlayer()
+    this._roundInfo = {
+      currentPlayer: function() {
+        return currentPlayer == humanPlayer ? 'You' : currentPlayer.name()
+      },
+      cardsReceived: cards.map(card => card.toString()).join(', '),
+      requestedPlayer: function() {
+        return cardSource == humanPlayer ? 'you' : cardSource.name()
+      }
+    }
+  }
+
+  roundInfo() {
+    if (!this._roundInfo) this._roundInfo = null
+    return this._roundInfo
   }
 }

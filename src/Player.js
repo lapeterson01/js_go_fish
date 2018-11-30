@@ -1,7 +1,16 @@
 class Player {
-  constructor(name) {
+  static asHuman(name) {
+    return new this(name, true)
+  }
+
+  constructor(name, isHumanPlayer) {
     this._name = name
     this._hand = {}
+    this._humanPlayer = isHumanPlayer || false
+  }
+
+  isHumanPlayer() {
+    return this._humanPlayer
   }
 
   name() {
@@ -49,6 +58,7 @@ class Player {
     } else {
       this._hand[card.rank()] = [card]
     }
+    return card
   }
 
   giveUpCards(rank) {
